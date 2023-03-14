@@ -1,0 +1,22 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Doctors.Models.Doctor
+
+<h4>Add a new doctor</h4>
+
+<p>@Html.ValidationMessageFor(model => model.SpecialtyId, "", new { @class = "text-danger", @style = "font-weight: 600;" })</p>
+<p>@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @style = "font-weight: 600;" })</p>
+
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.Name)
+  @Html.TextBoxFor(model => model.Name)
+
+  @Html.LabelFor(model => model.Specialty)
+  @Html.DropDownList("SpecialtyId")
+
+  <input type="submit" value="Add new doctor" class="btn btn-default" />
+}
+<p>@Html.ActionLink("Show all doctors", "Index")</p>
