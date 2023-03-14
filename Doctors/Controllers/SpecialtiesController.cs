@@ -1,23 +1,23 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using ToDoList.Models;
+using Doctors.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ToDoList.Controllers
+namespace Doctors.Controllers
 {
-  public class CategoriesController : Controller
+  public class SpecialtiesController : Controller
   {
-    private readonly ToDoListContext _db;
+    private readonly DoctorsContext _db;
 
-    public CategoriesController(ToDoListContext db)
+    public SpecialtiesController(DoctorsContext db)
     {
       _db = db;
     }
 
     public ActionResult Index()
     {
-      List<Category> model = _db.Categories.ToList();
+      List<Specialty> model = _db.Specialties.ToList();
       return View(model);
     }
 
@@ -27,48 +27,48 @@ namespace ToDoList.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Category category)
+    public ActionResult Create(Specialty specialty)
     {
-      _db.Categories.Add(category);
+      _db.Specialties.Add(specialty);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
     public ActionResult Details(int id)
     {
-      Category thisCategory = _db.Categories
-                                .Include(cat => cat.Items)
-                                .ThenInclude(item => item.JoinEntities)
-                                .ThenInclude(join => join.Tag)
-                                .FirstOrDefault(category => category.CategoryId == id);
-      return View(thisCategory);
+      Specialty thisSpecialty = _db.Specialties
+                                .Include(cat => cat.Doctors)
+                                .ThenInclude(doctor => doctor.JoinEntities)
+                                .ThenInclude(join => join.Patient)
+                                .FirstOrDefault(specialty => specialty.SpecialtyId == id);
+      return View(thisSpecialty);
     }
 
     public ActionResult Edit(int id)
     {
-      Category thisCategory = _db.Categories.FirstOrDefault(category => category.CategoryId == id);
-      return View(thisCategory);
+      Specialty thisSpecialty = _db.Specialties.FirstOrDefault(specialty => specialty.SpecialtyId == id);
+      return View(thisSpecialty);
     }
 
     [HttpPost]
-    public ActionResult Edit(Category category)
+    public ActionResult Edit(Specialty specialty)
     {
-      _db.Categories.Update(category);
+      _db.Specialties.Update(specialty);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
     public ActionResult Delete(int id)
     {
-      Category thisCategory = _db.Categories.FirstOrDefault(category => category.CategoryId == id);
-      return View(thisCategory);
+      Specialty thisSpecialty = _db.Specialties.FirstOrDefault(specialty => specialty.SpecialtyId == id);
+      return View(thisSpecialty);
     }
 
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
-      Category thisCategory = _db.Categories.FirstOrDefault(category => category.CategoryId == id);
-      _db.Categories.Remove(thisCategory);
+      Specialty thisSpecialty = _db.Specialties.FirstOrDefault(specialty => specialty.SpecialtyId == id);
+      _db.Specialties.Remove(thisSpecialty);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }

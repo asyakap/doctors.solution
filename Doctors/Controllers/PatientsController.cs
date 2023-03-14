@@ -1,32 +1,32 @@
 using Microsoft.AspNetCore.Mvc;
-using ToDoList.Models;
+using Doctors.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace ToDoList.Controllers
+namespace Doctors.Controllers
 {
-  public class TagsController : Controller
+  public class PatientsController : Controller
   {
-    private readonly ToDoListContext _db;
+    private readonly DoctorsContext _db;
 
-    public TagsController(ToDoListContext db)
+    public PatientsController(DoctorsContext db)
     {
       _db = db;
     }
 
     public ActionResult Index()
     {
-      return View(_db.Tags.ToList());
+      return View(_db.Patients.ToList());
     }
     public ActionResult Details(int id)
     {
-      Tag thisTag = _db.Tags
-          .Include(tag => tag.JoinEntities)
-          .ThenInclude(join => join.Item)
-          .FirstOrDefault(tag => tag.TagId == id);
-      return View(thisTag);
+      Patient thisPatient = _db.Patients
+          .Include(patient => patient.JoinEntities)
+          .ThenInclude(join => join.Doctor)
+          .FirstOrDefault(patient => patient.PatientId == id);
+      return View(thisPatient);
     }
 
         public ActionResult Create()
@@ -35,59 +35,59 @@ namespace ToDoList.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Tag tag)
+    public ActionResult Create(Patient patient)
     {
-      _db.Tags.Add(tag);
+      _db.Patients.Add(patient);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
-    public ActionResult AddItem(int id)
+    public ActionResult AddDoctor(int id)
     {
-      Tag thisTag = _db.Tags.FirstOrDefault(tags => tags.TagId == id);
-      ViewBag.ItemId = new SelectList(_db.Items, "ItemId", "Description");
-      return View(thisTag);
+      Patient thisPatient = _db.Patients.FirstOrDefault(patients => patients.PatientId == id);
+      ViewBag.DoctorId = new SelectList(_db.Doctors, "DoctorId", "Name");
+      return View(thisPatient);
     }
 
     [HttpPost]
-    public ActionResult AddItem(Tag tag, int itemId)
+    public ActionResult AddDoctor(Patient patient, int doctorId)
     {
       #nullable enable
-      ItemTag? joinEntity = _db.ItemTags.FirstOrDefault(join => (join.ItemId == itemId && join.TagId == tag.TagId));
+      DoctorPatient? joinEntity = _db.DoctorPatients.FirstOrDefault(join => (join.DoctorId == doctorId && join.PatientId == patient.PatientId));
       #nullable disable
-      if (joinEntity == null && itemId != 0)
+      if (joinEntity == null && doctorId != 0)
       {
-        _db.ItemTags.Add(new ItemTag() { ItemId = itemId, TagId = tag.TagId });
+        _db.DoctorPatients.Add(new DoctorPatient() { DoctorId = doctorId, PatientId = patient.PatientId });
         _db.SaveChanges();
       }
-      return RedirectToAction("Details", new { id = tag.TagId });
+      return RedirectToAction("Details", new { id = patient.PatientId });
     }
 
     public ActionResult Edit(int id)
     {
-      Tag thisTag = _db.Tags.FirstOrDefault(tags => tags.TagId == id);
-      return View(thisTag);
+      Patient thisPatient = _db.Patients.FirstOrDefault(patients => patients.PatientId == id);
+      return View(thisPatient);
     }
 
     [HttpPost]
-    public ActionResult Edit(Tag tag)
+    public ActionResult Edit(Patient patient)
     {
-      _db.Tags.Update(tag);
+      _db.Patients.Update(patient);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
     public ActionResult Delete(int id)
     {
-      Tag thisTag = _db.Tags.FirstOrDefault(tags => tags.TagId == id);
-      return View(thisTag);
+      Patient thisPatient = _db.Patients.FirstOrDefault(patients => patients.PatientId == id);
+      return View(thisPatient);
     }
 
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
-      Tag thisTag = _db.Tags.FirstOrDefault(tags => tags.TagId == id);
-      _db.Tags.Remove(thisTag);
+      Patient thisPatient = _db.Patients.FirstOrDefault(atients => patients.PatientId == id);
+      _db.Patients.Remove(thisPatient);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
@@ -95,8 +95,8 @@ namespace ToDoList.Controllers
     [HttpPost]
     public ActionResult DeleteJoin(int joinId)
     {
-      ItemTag joinEntry = _db.ItemTags.FirstOrDefault(entry => entry.ItemTagId == joinId);
-      _db.ItemTags.Remove(joinEntry);
+      DoctorPatient joinEntry = _db.DoctorPatients.FirstOrDefault(entry => entry.DoctorPatientId == joinId);
+      _db.DoctorPatients.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
