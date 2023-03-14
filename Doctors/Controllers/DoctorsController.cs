@@ -16,7 +16,7 @@ namespace Doctors.Controllers
       _db = db;
     }
 
-    public ActionResult Doctor()
+    public ActionResult Index()
     {
       List<Doctor> model = _db.Doctors
                             .Include(doctor => doctor.Specialty)

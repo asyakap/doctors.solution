@@ -86,7 +86,7 @@ namespace Doctors.Controllers
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
-      Patient thisPatient = _db.Patients.FirstOrDefault(atients => patients.PatientId == id);
+      Patient thisPatient = _db.Patients.FirstOrDefault(patients => patients.PatientId == id);
       _db.Patients.Remove(thisPatient);
       _db.SaveChanges();
       return RedirectToAction("Index");
