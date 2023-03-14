@@ -1,61 +1,65 @@
-## What Is This?
+# Doctors web app
 
-This is an example repo corresponding to multiple lessons within the LearnHowToProgram.com walkthrough on creating a To Do List application in [Section 4: Many-to-Many Relationships](https://www.learnhowtoprogram.com/c-and-net/many-to-many-relationships).
+#### Asia Kaplanyan
 
-This project corresponds to the classwork and lessons that describe how to connect an ASP.NET Core MVC project to a MySQL database using [Entity Framework Core](https://learn.microsoft.com/en-us/ef/core/) with migrations. This project contains a one-to-many relationship between `Item` and `Category`, and a many-to-many relationship between `Item` and `Tag`. There are multiple lessons in this series. The first lesson in the series is [Code First Development and Migrations](https://www.learnhowtoprogram.com/c-and-net-part-time/many-to-many-relationships/code-first-development-and-migrations).
+## Technologies Used
 
-There are multiple branches in this repo that are described more below.
+* C#
+* Razor HTML
+* VS Code
+* .Net 6
+* MySQL
+* Entity Framework Core 6
+* CSS
 
-## How To Run This Project
+## Description
+A website of a Doctor's Office using MySQL and EF Core. User can add doctors' specialties, doctors and patients.
 
-### Install Tools
+### Setup Instructions
 
-Install the tools that are introduced in [this series of lessons on LearnHowToProgram.com](https://www.learnhowtoprogram.com/c-and-net/getting-started-with-c).
+#### You Will Need: 
 
-### Set Up and Run Project
+* A code editor, like VS Code
+* Git installed
+* Install .Net6 SDK
 
-1. Clone this repo.
-2. Open the terminal and navigate to this project's production directory called "ToDoList".
-3. Within the production directory "ToDoList", create a new file called `appsettings.json`.
-4. Within `appsettings.json`, put in the following code, replacing the `uid` and `pwd` values with your own username and password for MySQL. For the LearnHowToProgram.com lessons, we always assume the `uid` is `root` and the `pwd` is `epicodus`.
+#### Install MySQL Workbench:
+* Follow the MySqlWorkbench installation instructions [here](https://www.mysql.com/products/workbench/), open MySql Workbench and select the Local 3306 server. Then select the "Administration" tab and click on "Data Import/Restore".
+* In Import Options select "Import from Self-Contained File" and click the "..." button to navigate to the file ending in ".sql" in the top level of this repository.
+* Under the "Default Schema to be Imported to" select "New..." and enter schema name of your choice. Click "Start Import" in the bottom right.
+* Confirm the import was successful by clicking on the "Schemas" tab and seeing the schema you created listed.
 
-```json
-{
-  "ConnectionStrings": {
-      "DefaultConnection": "Server=localhost;Port=3306;database=to_do_list_with_many_to_many;uid=root;pwd=epicodus;"
+#### Preliminary Project Set-up:
+1. Clone or download this repository to your machine.
+2. Navigate to the local directory (YourPath/ProjectName.Solution/ProjectName) and create a new file "appsettings.json".
+3. Open the file in VS Code and add:
+  ```
+  {
+    "ConnectionStrings": {
+      "DefaultConnection": "Server=localhost;Port=3306;database=[YOUR-DB-NAME];uid=[YOUR-USER-HERE];pwd=[YOUR-PASSWORD-HERE];"
+    }
   }
-}
-```
+  ```
 
-5. Create the database using the migrations in the To Do List project. Open your shell (e.g., Terminal or GitBash) to the production directory "ToDoList", and run `dotnet ef database update`. 
-    - To optionally create a migration, run the command `dotnet ef migrations add MigrationName` where `MigrationName` is your custom name for the migration in UpperCamelCase. To learn more about migrations, visit the LHTP lesson [Code First Development and Migrations](https://www.learnhowtoprogram.com/c-and-net-part-time/many-to-many-relationships/code-first-development-and-migrations).
-6. Within the production directory "ToDoList", run `dotnet watch run` in the command line to start the project in development mode with a watcher.
-4. Open the browser to _https://localhost:5001_. If you cannot access localhost:5001 it is likely because you have not configured a .NET developer security certificate for HTTPS. To learn about this, review this lesson: [Redirecting to HTTPS and Issuing a Security Certificate](https://www.learnhowtoprogram.com/lessons/redirecting-to-https-and-issuing-a-security-certificate).
+**IMPORTANT:** Be sure to replace your username, password, and name of your database for the fields [YOUR-USER-HERE], [YOUR-PASSWORD-HERE], AND [YOUR-DB-NAME].
 
+4. Create a .gitignore file and add "appsettings.json", "bin", and "obj" to the ignored file list.  
+5. Open your shell (e.g., Terminal or GitBash) and add your .gitignore file and commit it before adding any other files. 
+6. Get to the direcotry called "Doctors"
+7. In the command line, run the command `dotnet run` to compile and execute the console application. Optionally, you can run `dotnet build` to compile this console app without running it.
+8. Run `dotnet watch run` in the command line to start the project in development mode with a watcher.
+9. Open the browser to _https://localhost:5001_. If you cannot access localhost:5001 it is likely because you have not configured a .NET developer security certificate for HTTPS. To learn about this, review this lesson: [Redirecting to HTTPS and Issuing a Security Certificate](https://www.learnhowtoprogram.com/c-and-net/basic-web-applications/redirecting-to-https-and-issuing-a-security-certificate).
 
-## Available Branches
+## Known Bugs
 
-**1_starter_project**: This is the default branch with the starter code for the To Do List project as an ASP.NET Core MVC web application that is configured to use Entity Framework Core to communicate with a MySQL database as completed at the end of section 3. **This branch is not meant to be run using the above instructions, as it is not configured to use EF Core migrations; instead it is meant to be used as a starting point for the refactor we begin in the LHTP lesson [Code First Development and Migrations](https://www.learnhowtoprogram.com/c-and-net-part-time/many-to-many-relationships/code-first-development-and-migrations).**
+No known bugs
 
-**2_many_to_many_setup**: This branch includes the code we added after working through the following lessons:
+## License
+Enjoy the site! If you have questions or suggestions for fixing the code, please contact me!
 
-- https://www.learnhowtoprogram.com/c-and-net/many-to-many-relationships/code-first-development-and-migrations
-- https://www.learnhowtoprogram.com/c-and-net/many-to-many-relationships/many-to-many-relationships-join-entities
+MIT License Copyright (c) 2023 Asia Kaplanyan
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-**3_m2m_read_and_create**: This branch includes the code we added after working through the following lessons:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-- https://www.learnhowtoprogram.com/c-and-net/many-to-many-relationships/many-to-many-read-functionality
-- https://www.learnhowtoprogram.com/c-and-net/many-to-many-relationships/many-to-many-create-functionality
-
-**4_m2m_update_and_delete**: This branch includes the code we added after working through the following lessons:
-
-- https://www.learnhowtoprogram.com/c-and-net/many-to-many-relationships/many-to-many-update-functionality
-- https://www.learnhowtoprogram.com/c-and-net/many-to-many-relationships/many-to-many-delete-functionality
-
-**5_model_validation**: This branch includes the code we added after working through the following lesson:
-
-- https://www.learnhowtoprogram.com/c-and-net/many-to-many-relationships/model-validation-with-validation-attributes
-
-**6_data_from_multiple_db_tables**: This branch includes the code we added after working through the following lesson:
-
-- https://www.learnhowtoprogram.com/c-and-net/many-to-many-relationships/creating-a-splash-page-with-data-from-multiple-database-tables
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
